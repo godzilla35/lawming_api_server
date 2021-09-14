@@ -3,13 +3,49 @@ const Sequelize = require('sequelize');
 module.exports = class Post extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
-      content: {
-        type: Sequelize.STRING(140),
+      court: {
+        type: Sequelize.STRING(256),
         allowNull: false,
       },
-      img: {
-        type: Sequelize.STRING(200),
+      time: {
+        type: Sequelize.STRING(256),
+        allowNull: false,
+      },
+      progressType: {
+        type: Sequelize.STRING(256),
+        allowNull: false,
+      },
+      myPartyType: {
+        type: Sequelize.STRING(256),
+        allowNull: false,
+      },
+      myName: {
+        type: Sequelize.STRING(256),
+        allowNull: false,
+      },
+      otherPartyType: {
+        type: Sequelize.STRING(256),
+        allowNull: false,
+      },
+      opponentName: {
+        type: Sequelize.STRING(256),
+        allowNull: false,
+      },
+      caseNum: {
+        type: Sequelize.STRING(256),
+        allowNull: false,
+      },
+      caseDetail: {
+        type: Sequelize.STRING(256),
         allowNull: true,
+      },
+      caseArgument: {
+        type: Sequelize.STRING(256),
+        allowNull: true,
+      },
+      cost: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
     }, {
       sequelize,
