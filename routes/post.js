@@ -33,4 +33,4 @@ router.post('/', isValidAPI, async (req, res, next) => {
     }
 });
 
-module.exports = router;``
+module.exports = router;
