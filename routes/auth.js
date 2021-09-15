@@ -87,7 +87,7 @@ router.post("/login", async function(req, res) {
     console.log(`===### user.password: ${user.password}`);
     const result = await bcrypt.compare(password, user.password);
     if (result) {
-      var payload = { id: user.id };
+      var payload = { id: user.id, email: user.email, nick: user.nick };
       console.log(`===### user.id: ${user.id}`);
       var token = jwt.sign(payload, 
         jwtOptions.secretOrKey, 
