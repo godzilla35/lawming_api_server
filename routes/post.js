@@ -8,7 +8,8 @@ const { isValidAPI } = require('./middlewares');
 
 router.post('/', isValidAPI, async (req, res, next) => {
     try{
-        console.log(req.body);
+        
+        console.log(req.user.id);
 
         const post = await Post.create({
             court: req.body.court,
@@ -22,7 +23,7 @@ router.post('/', isValidAPI, async (req, res, next) => {
             caseDetail : req.body.caseDetail,
             caseArgument : req.body.caseArgument,
             cost : req.body.cost,
-            userEmail: req.user.email,
+            UserId: req.user.id,
         });
 
         res.status(200).json({ message : 'post success' });
@@ -32,4 +33,4 @@ router.post('/', isValidAPI, async (req, res, next) => {
     }
 });
 
-module.exports = router;
+module.exports = router;``
