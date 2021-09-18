@@ -49,7 +49,7 @@ router.post('/join', async (req, res, next) => {
   const { email, nick, password } = req.body;
   try {
     
-    const exUser = await User.findOne({ where: { email } });
+    const exUser = await User.findOne({ where: { email : email} });
     
     if (exUser) {
       return res.status(400).json({
