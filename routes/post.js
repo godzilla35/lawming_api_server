@@ -33,4 +33,19 @@ router.post('/', isValidAPI, async (req, res, next) => {
     }
 });
 
+router.patch('/:postId/apply', isValidAPI, async (req, res, next) => { // PATCH /post/1/like
+    try {
+        console.log(`${req.params.postId} post!!`);
+        const post = await Post.findOne({ where: { id: req.params.postId } });
+        if (!post) {
+            return res.status(403).send('게시글이 존재하지 않습니다.');
+        }
+        await post.addAppliers(req.user.id);
+        res.json({ PostId: post.id, UserId: req.user.id });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+
 module.exports = router;

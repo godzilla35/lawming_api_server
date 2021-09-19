@@ -19,6 +19,7 @@
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.1",
     "sequelize": "^6.6.5",
+    "sequelize-cli": "^6.2.0",
     "serve-favicon": "~2.4.5"
   }
 }
