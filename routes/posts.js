@@ -32,7 +32,7 @@ router.get('/', isValidAPI, async (req, res, next) => {
 
 });
 
-// Get posts/godzilla35@naver.com
+// Get posts/1
 
 router.get('/:userId', isValidAPI, async (req, res, next) => {
 
@@ -40,7 +40,7 @@ router.get('/:userId', isValidAPI, async (req, res, next) => {
 
     try {
         const posts = await Post.findAll({
-            where : {id: req.params.userId}, 
+            where : {userId: req.params.userId}, 
             order: [
                 ['createdAt', 'DESC'],
             ],
