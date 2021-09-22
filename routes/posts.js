@@ -18,7 +18,29 @@ router.get('/', isValidAPI, async (req, res, next) => {
     try {
         const posts = await Post.findAll({
             where,
-            limit: 10,
+            limit: 10, 
+            order: [
+                ['createdAt', 'DESC'],
+            ],
+        });
+        console.log(posts);
+        res.status(200).json(posts);
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+
+});
+
+// Get posts/godzilla35@naver.com
+
+router.get('/:userId', isValidAPI, async (req, res, next) => {
+
+    console.log(`userID : ${req.params.userId}`);
+
+    try {
+        const posts = await Post.findAll({
+            where : {id: req.params.userId}, 
             order: [
                 ['createdAt', 'DESC'],
             ],
