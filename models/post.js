@@ -47,6 +47,10 @@ module.exports = class Post extends Sequelize.Model {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      state: {
+        type: Sequelize.STRING(64),
+        allowNull: false,
+      },
     }, {
       sequelize,
       timestamps: true,
@@ -61,6 +65,6 @@ module.exports = class Post extends Sequelize.Model {
 
   static associate(db) {
     db.Post.belongsTo(db.User);
-    db.Post.belongsToMany(db.User, {through: 'Apply', as: 'Applier'});
+    db.Post.belongsToMany(db.User, {through: 'Apply', as :'Applier', foreignKey: 'ApplyPostId'});
   }
 };

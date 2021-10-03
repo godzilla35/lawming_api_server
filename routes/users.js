@@ -12,16 +12,22 @@ router.get('/:postID', async (req, res, next) => {
 
     try {
         const users = await User.findAll({
+            attributes: ['id', 'email', 'nick'],
             include: [{
                 model : Post,
-                as: 'Applied',
                 through: 'Apply',
                 where : {
                     id : req.params.postID,
-                }
+                },
+                attributes: ['id'],
             }],
-            
+            order: [
+                //['createdAt', 'DESC'],
+                [{model: Post, through: 'Apply'}, 'createdAt', 'DESC']
+              ],
         });
+
+        console.log(users[0]);
         res.status(200).json(users);
     } catch (error) {
         console.error(error);
