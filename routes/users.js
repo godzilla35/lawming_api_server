@@ -6,29 +6,32 @@ const router = express.Router();
 
 const { isValidAPI } = require('./middlewares');
 
-router.get('/:postID', async (req, res, next) => {
+router.get('/:postId', async (req, res, next) => {
 
-    console.log(`postID : ${req.params.postID}`);
+    console.log(`postId : ${req.params.postId}`);
 
     try {
-        const users = await User.findAll({
-            attributes: ['id', 'email', 'nick'],
-            include: [{
-                model : Post,
-                through: 'Apply',
-                where : {
-                    id : req.params.postID,
-                },
-                attributes: ['id'],
-            }],
-            order: [
-                //['createdAt', 'DESC'],
-                [{model: Post, through: 'Apply'}, 'createdAt', 'DESC']
-              ],
-        });
+        const post = await Post.findOne({where : {id: req.params.postId}});
+        
+        
+        if(!post) {
+            console.log('no post!');
+            return res.status(403).json({message: 'no post'});
+        }
 
-        console.log(users[0]);
-        res.status(200).json(users);
+        const applier = await post.getApplier({attributes : ['id', 'email', 'nick']});
+
+        if(applier.length == 0) {
+            console.log(`===### not applied post!`);
+            return res.json({ message : 'not applied post!' });
+        } else {
+            for(var i = 0; i<applier.length; i++) {
+                console.log(`id: ${applier[i].id} email: ${applier[i].email}`);
+            }
+        }
+
+        return res.json({id: applier[0].id, email: applier[0].email, nick: applier[0].nick});
+
     } catch (error) {
         console.error(error);
         next(error);
