@@ -65,4 +65,22 @@ router.patch('/:postId/apply', isValidAPI, async (req, res, next) => { // PATCH 
     }
 });
 
+router.patch('/state/:postId/:state', isValidAPI, async (req, res, next) => {
+    try{
+        console.log(`===### Patch post/state/${req.params.postId}/${req.params.state}`);
+
+
+        const post = await Post.findOne({ where: { id: req.params.postId } });
+        if (!post) {
+            return res.status(403).send('게시글이 존재하지 않습니다.');
+        }
+
+        post.update({state: req.params.state});
+        return res.json({ PostId: post.id, state: post.state });
+    }catch(error) {
+        console.error(error);
+        next(error);
+    }
+})
+
 module.exports = router;
