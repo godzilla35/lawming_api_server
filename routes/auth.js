@@ -46,7 +46,8 @@ router.get("/", function(req, res) {
 });
 
 router.post('/join', async (req, res, next) => {
-  const { email, nick, password } = req.body;
+  const { email, nick, password, name, phoneNum, officeName, officeNum } = req.body;
+  console.log(`===### Post /join ${email}, ${nick},${password},${name},${phoneNum},${officeName}, ${officeNum},`)
   try {
     
     const exUser = await User.findOne({ where: { email : email} });
@@ -60,9 +61,13 @@ router.post('/join', async (req, res, next) => {
 
     const hash = await bcrypt.hash(password, 12);
     await User.create({
-      email,
-      nick,
-      password: hash,
+      email : email,
+      nick : nick,
+      password : hash,
+      name : name,
+      phoneNum : phoneNum,
+      officeName : officeName,
+      officeNum : officeNum
     });
 
     return res.status(200).json({
@@ -87,8 +92,23 @@ router.post("/login", async function(req, res) {
     console.log(`===### user.password: ${user.password}`);
     const result = await bcrypt.compare(password, user.password);
     if (result) {
-      var payload = { id: user.id, email: user.email, nick: user.nick };
+      var payload = { 
+        id: user.id, 
+        email: user.email, 
+        nick: user.nick,
+        name : user.name,
+        phoneNum : user.phoneNum,
+        officeName : user.officeName,
+        officeNum : user.officeNum };
+
       console.log(`===### user.id: ${user.id}`);
+      console.log(`===### user.email: ${user.email}`);
+      console.log(`===### user.nick: ${user.nick}`);
+      console.log(`===### user.name: ${user.name}`);
+      console.log(`===### user.phoneNum: ${user.phoneNum}`);
+      console.log(`===### user.officeName: ${user.officeName}`);
+      console.log(`===### user.officeNum: ${user.officeNum}`);
+
       var token = jwt.sign(payload, 
         jwtOptions.secretOrKey, 
         {

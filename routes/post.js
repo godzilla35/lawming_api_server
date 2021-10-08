@@ -65,6 +65,41 @@ router.patch('/:postId/apply', isValidAPI, async (req, res, next) => { // PATCH 
     }
 });
 
+router.delete('/apply/:postId', isValidAPI, async (req, res, next) => { // PATCH /post/1/like
+    try {
+        console.log(`delete /apply/${req.params.postId}`);
+        const post = await Post.findOne({ where: { id: req.params.postId} });
+
+        if (!post) {
+            return res.status(404).send('게시글이 존재하지 않습니다.');
+        }
+        
+        const applier = await post.getApplier();
+        if(applier.length == 0) {
+            console.log(`===### not applied post!`);
+            return res.status(403).json({ message : 'not applied post!' });
+        } else {
+            console.log(`===### ${applier[0].id}`);
+        }
+        
+        
+        var ret = await post.removeApplier(applier[0].id);
+        console.log(ret);
+
+        // post의 상태값 변경
+        post.update({state: 'PostState.todo'});
+
+
+        return res.json({ message: 'success' });
+        
+        
+
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+
 router.patch('/state/:postId/:state', isValidAPI, async (req, res, next) => {
     try{
         console.log(`===### Patch post/state/${req.params.postId}/${req.params.state}`);

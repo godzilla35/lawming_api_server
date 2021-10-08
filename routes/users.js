@@ -22,8 +22,8 @@ router.get('/:postId', async (req, res, next) => {
         const applier = await post.getApplier({attributes : ['id', 'email', 'nick']});
 
         if(applier.length == 0) {
-            console.log(`===### not applied post!`);
-            return res.json({ message : 'not applied post!' });
+            console.log(`===### not applied user!`);
+            return res.status(204).json({ message : 'not applied user!' });
         } else {
             for(var i = 0; i<applier.length; i++) {
                 console.log(`id: ${applier[i].id} email: ${applier[i].email}`);
