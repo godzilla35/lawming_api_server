@@ -116,6 +116,24 @@ router.patch('/state/:postId/:state', isValidAPI, async (req, res, next) => {
         console.error(error);
         next(error);
     }
-})
+});
+
+router.get('/:postId', isValidAPI, async (req, res, next) => {
+    const where = {};
+    console.log(`===### GET post/${req.params.postId}`);
+
+    try {
+        const post = await Post.findOne({
+            where : {id : req.params.postId}
+        });
+        console.log(post);
+        res.status(200).json(post);
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+
+});
+
 
 module.exports = router;
